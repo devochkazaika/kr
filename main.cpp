@@ -7,18 +7,13 @@ using namespace std;
 int main(){
     ifstream input;
     input.open("file.txt");
-    int n;
     char d;
     input >> d;
-    n = int(d-'0');
+    int n = int(d-'0');
     int number = 0;
-    int n_d = 0;
     city *kol = new city[n+2];
-    for (int i=0; i<n; i++){
-        kol[i].mas = new city[n-1];
-        kol[i].h = new int[n-1];
-    }
-    cout << d-'0';
+    dorog *dq = new dorog[n * (n-1)/2];
+    int zk = 0;
     while (!input.eof()){
         city *one = NULL;
         city *two = NULL;
@@ -30,30 +25,36 @@ int main(){
         input >> d;
         two = prov(d, &kol, n, &number);
         input >> k;
-        //cout << one->mas << endl;
-        one[one->n].mas = two;
-        one->h[one->n] = k;
-        two[one->n].mas = one;
-        two->h[two->n] = k;
-        one->n += 1;
-        two->n += 1;
+        dq[zk].first = one;
+        dq[zk].second = two;
+        dq[zk].weight = k;
+        zk = zk + 1;
     }
-    city *tmp = kol;
-    tmp->weight = 0;
+    dorog *otvet = new dorog[n];
+    sort_d(dq, 6);
+    char *mas_c = new char[n];
+    int s = 0;
+    int sum = 0;
+    cout << "Ways:" << endl;
+    for (int i=0; i<(n-1)*n/2; i++){
+        bool t1 = true;
+        bool t2 = true;
+        t1 = pr(dq[i].first, mas_c, s);
+        t2 = pr(dq[i].second, mas_c, s);
+        if (t1 || t2){
+            if (t1){
+                mas_c[s] = dq[i].first->name;
+                s = s + 1;
+            }
+            if (t2){
+                mas_c[s] = dq[i].second->name;
+                s = s + 1;
+            }
 
-    for (int i=0; i<n; i++){
-        city *tmp = (kol + i);
-        
-    }
-}
-
-
-city *min(city *mas, int n){
-    city *k = mas;
-    for (int i=1; i<n; i++){
-        if (k->weight > mas[i].weight){
-            k = &mas[i];
+            cout <<dq[i].first->name << "->" <<dq[i].second->name<<" W:" << dq[i].weight << endl;
+            sum = sum + dq[i].weight;
         }
     }
-    return k;
+    cout << "Total sum:" << sum;
 }
+
