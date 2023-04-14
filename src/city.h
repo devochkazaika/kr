@@ -47,7 +47,7 @@ bool pr(city *dq, char **mas_c, int n){
     bool t1 = true;
     bool t2 = true;
     for (int i=0; i<n; i++){
-        if (strcmp((dq)->name, mas_c[i])){
+        if (strcmp((dq)->name, mas_c[i])==0){
             t1 =false;
             break;
         };
