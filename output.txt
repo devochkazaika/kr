@@ -1,7 +1,7 @@
 Ways:
-B->D W:2
-C->D W:6
-A->B W:7
-C->E W:9
-D->F W:9
+Boston->Dick W:2
+Cock->Dick W:6
+Anus->Boston W:7
+Cock->Ebu W:9
+Dick->Fuck W:9
 Total sum:33
