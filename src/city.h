@@ -1,5 +1,6 @@
 #include <iostream>
 #pragma once
+#include <cstring>
 
 struct city;
 using namespace std;
@@ -12,26 +13,41 @@ struct dorog{
 
 
 struct city{
-    char name;
+    char *name = new char[20];
 };
 
+/*bool p_s(char *a, char *b){
+    for (int i=0; i<20; i++){
+        if (a[i] != b[i]){
+            return false;
+        };
+    }
+    return true;
+}*/
 
-city *prov(char d, city **kol, int n, int *number){
+void zap(char *a, char *b){
+    for (int i=0; i<20; i++){
+        a[i] = b[i];
+    }
+}
+
+
+city *prov(char *d, city **kol, int n, int *number){
     for (int i=0; i<n; i++){
-        if (d == (*kol)[i].name){
+        if (strcmp(d, (*kol)[i].name) == 0){
             return &((*kol)[i]);
     }}
     *number += 1;
-    (*kol)[*number-1].name = d;
+    zap((*kol)[*number-1].name, d);
     return &((*kol)[*number-1]);
 }
 
 
-bool pr(city *dq, char *mas_c, int n){
+bool pr(city *dq, char **mas_c, int n){
     bool t1 = true;
     bool t2 = true;
     for (int i=0; i<n; i++){
-        if ((dq)->name == mas_c[i]){
+        if (strcmp((dq)->name, mas_c[i])){
             t1 =false;
             break;
         };

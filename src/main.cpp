@@ -14,15 +14,16 @@ int main(){
     int n = int(d-'0');
     int n_d = n * (n-1)/2;
     int number = 0;
-    city *kol = new city[n+2];
+    city *kol = new city[n+10];
     dorog *dq = new dorog[n_d];
     int zk = 0;
     while (!input.eof()){
         city *one = NULL;
         city *two = NULL;
-        char d;
+        char *d = new char[20];
         int k;
         input >> d;
+        //cout << d << endl;
         if (input.eof()) break;
         one = prov(d, &kol, n, &number);
         input >> d;
@@ -35,7 +36,10 @@ int main(){
     }
     dorog *otvet = new dorog[zk];
     sort_d(dq, zk);
-    char *mas_c = new char[n];
+    char **mas_c = new char*[n];
+    for (int i=0; i<n; i++){
+        mas_c[i] = new char[20];
+    }
     int s = 0;
     int sum = 0;
     output << "Ways:" << endl;
@@ -46,11 +50,11 @@ int main(){
         t2 = pr(dq[i].second, mas_c, s);
         if (t1 || t2){
             if (t1){
-                mas_c[s] = dq[i].first->name;
+                zap(mas_c[s], dq[i].first->name);
                 s = s + 1;
             }
             if (t2){
-                mas_c[s] = dq[i].second->name;
+                zap(mas_c[s], dq[i].second->name);
                 s = s + 1;
             }
 
