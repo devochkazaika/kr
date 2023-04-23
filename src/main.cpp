@@ -5,6 +5,7 @@
 using namespace std;
 
 int main(){
+    setlocale(LC_ALL, "Russian");
     ifstream input;
     ofstream output;
     output.open("../output.txt");
@@ -14,28 +15,36 @@ int main(){
     int n = int(d-'0');
     int n_d = n * (n-1)/2;
     int number = 0;
-    city *kol = new city[n+10];
-    dorog *dq = new dorog[n_d];
+    city *mas_cit = new city[n];
+    way *mas_ways = new way[n_d];
+    bool z = true;
     int zk = 0;
     while (!input.eof()){
         city *one = NULL;
         city *two = NULL;
-        char *d = new char[20];
+        char d[20];
         int k;
         input >> d;
-        //cout << d << endl;
+        if (*d == '.'){
+            z = false;
+            break;
+        };
         if (input.eof()) break;
-        one = prov(d, &kol, n, &number);
+        one = insert_city(d, &mas_cit, n, &number);
         input >> d;
-        two = prov(d, &kol, n, &number);
+        two = insert_city(d, &mas_cit, n, &number);
         input >> k;
-        dq[zk].first = one;
-        dq[zk].second = two;
-        dq[zk].weight = k;
+        mas_ways[zk].first = one;
+        mas_ways[zk].second = two;
+        mas_ways[zk].weight = k;
         zk = zk + 1;
     }
-    dorog *otvet = new dorog[zk];
-    sort_d(dq, zk);
+    if (zk + 1 != n_d && z){
+        output << "Введены не все дороги";
+        return 0;
+    }
+    way *otvet = new way[zk];
+    heapSort(mas_ways, zk);
     char **mas_c = new char*[n];
     for (int i=0; i<n; i++){
         mas_c[i] = new char[20];
@@ -46,28 +55,35 @@ int main(){
     for (int i=0; i<zk; i++){
         bool t1 = true;
         bool t2 = true;
-        t1 = pr(dq[i].first, mas_c, s);
-        t2 = pr(dq[i].second, mas_c, s);
+        t1 = pr(mas_ways[i].first, mas_c, s);
+        t2 = pr(mas_ways[i].second, mas_c, s);
         if (t1 || t2){
             if (t1){
-                zap(mas_c[s], dq[i].first->name);
+                zap(mas_c[s], mas_ways[i].first->name);
                 s = s + 1;
             }
             if (t2){
-                zap(mas_c[s], dq[i].second->name);
+                zap(mas_c[s], mas_ways[i].second->name);
                 s = s + 1;
             }
 
-            output <<dq[i].first->name << "->" <<dq[i].second->name<<" W:" << dq[i].weight << endl;
-            sum = sum + dq[i].weight;
+            output <<mas_ways[i].first->name << "<->" <<mas_ways[i].second->name<<" W:" << mas_ways[i].weight << endl;
+            sum = sum + mas_ways[i].weight;
         }
     }
+    
     delete[] otvet;
-    delete[] kol;
-    delete[] dq;
+    delete[] mas_cit;
+    delete[] mas_ways;
     output << "Total sum:" << sum;
     input.close();
     output.close();
+    if (s != n){
+        output.open("../output.txt", ios::out | ios::trunc);
+        output << "Граф в итоге получается несвязный" << endl;
+        output << "Нужно ввести больше дорог" << endl;
+        output.close();
+    }
     return 1;
 }
 
