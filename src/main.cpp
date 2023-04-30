@@ -77,6 +77,10 @@ int main(){
     output << "Total sum:" << sum;
     input.close();
     output.close();
+    if (s != n){
+        output.open("../output.txt");
+        output << "Введено неверное количество городов";
+    }
     return 1;
 }
 
