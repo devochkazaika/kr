@@ -47,41 +47,25 @@ bool pr(city *mas_ways, char **mas_c, int n){
 }
 
 
-void sort_d(way *t, int n){
-    for (int i=0; i<n-1; i++){
-        for (int j=0; j<n-i-1; j++){
-            way k = t[j];
-            if (t[j].weight > t[j+1].weight){
-                t[j] = t[j+1];
-                t[j+1] = k;
-            }
-        }
-    }}
-
-void swap(way *t, way *m){
-    way *n = t;
-    t = m;
-    m = n;
+void rep(way *t, way *m){
+    way n = *t;
+    *t = *m;
+    *m = n;
 }
 
 void siftDown(way *t, int root, int n){
-    int done = 0;
-    int max;
-    while ((root * 2 <= n) && (!done)){
-        if (root * 2 == n){
-            max = root * 2;
-        }
-        else if(t[root*2].weight > t[root * 2+1].weight){
-            max = root * 2;
-        }
-        else max = root * 2 + 1;
-        if (t[root].weight < t[max].weight){
-            swap(t[root], t[max]);
-            root = max;
-        }
-        else{
-            done = 1;
-        }
+    int max = root;
+    int l = root*2 +1;
+    int r = root*2 + 2;
+    if (l < n){
+        if (t[l].weight > t[max].weight) max = l;
+    }
+    if (r < n){
+        if (t[r].weight > t[max].weight) max = r;
+    }
+    if (max != root){
+        rep(t+max, t + root);
+        siftDown(t, max, n);
     }
 }
 
@@ -91,7 +75,7 @@ void heapSort(way *t, int n)
     siftDown(t, i, n - 1);
   for (int i = n - 1; i >= 1; i--)
   {
-    swap(t[i], t[0]);
+    rep(t+i, t);
     siftDown(t, 0, i - 1);
   }
 }
