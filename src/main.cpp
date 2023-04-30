@@ -39,7 +39,7 @@ int main(){
         mas_ways[zk].weight = k;
         zk = zk + 1;
     }
-    if (zk + 1 != n_d && z){
+    if (zk != n_d && z){
         output << "Введены не все дороги";
         return 0;
     }
@@ -71,19 +71,12 @@ int main(){
             sum = sum + mas_ways[i].weight;
         }
     }
-    
     delete[] otvet;
     delete[] mas_cit;
     delete[] mas_ways;
     output << "Total sum:" << sum;
     input.close();
     output.close();
-    if (s != n){
-        output.open("../output.txt", ios::out | ios::trunc);
-        output << "Граф в итоге получается несвязный" << endl;
-        output << "Нужно ввести больше дорог" << endl;
-        output.close();
-    }
     return 1;
 }
 

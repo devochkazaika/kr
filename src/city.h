@@ -71,11 +71,11 @@ void siftDown(way *t, int root, int n){
 
 void heapSort(way *t, int n) 
 {
-  for (int i = (n / 2); i >= 0; i--)
-    siftDown(t, i, n - 1);
-  for (int i = n - 1; i >= 1; i--)
+  for (int i = (n / 2)-1; i >= 0; i--)
+    siftDown(t, i, n);
+  for (int i = n - 1; i >= 0; i--)
   {
     rep(t+i, t);
-    siftDown(t, 0, i - 1);
+    siftDown(t, 0, i);
   }
 }
