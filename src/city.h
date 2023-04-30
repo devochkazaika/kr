@@ -36,7 +36,6 @@ city *insert_city(char *d, city **mas_cit, int n, int *number){
 
 bool pr(city *mas_ways, char **mas_c, int n){
     bool t1 = true;
-    bool t2 = true;
     for (int i=0; i<n; i++){
         if (strcmp((mas_ways)->name, mas_c[i])==0){
             t1 =false;
@@ -72,8 +71,8 @@ void siftDown(way *t, int root, int n){
 void heapSort(way *t, int n) 
 {
   for (int i = (n / 2)-1; i >= 0; i--)
-    siftDown(t, i, n);
-  for (int i = n - 1; i >= 0; i--)
+    siftDown(t, i, n - 1);
+  for (int i = n-1; i >= 0; i--)
   {
     rep(t+i, t);
     siftDown(t, 0, i);

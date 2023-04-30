@@ -1,6 +1,6 @@
 6
-Aqo B 7
-Aqo C 8
+A B 7
+A C 8
 B C 11
 B D 2
 C D 6

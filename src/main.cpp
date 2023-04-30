@@ -38,18 +38,22 @@ int main(){
         mas_ways[zk].second = two;
         mas_ways[zk].weight = k;
         zk = zk + 1;
+        if (zk > n_d){
+            output << "Количество дорог больше";
+            return 0;
+        }
     }
     if (zk != n_d && z){
         output << "Введены не все дороги";
         return 0;
     }
-    way *otvet = new way[zk];
     heapSort(mas_ways, zk);
     char **mas_c = new char*[n];
     for (int i=0; i<n; i++){
         mas_c[i] = new char[20];
     }
     int s = 0;
+    int kol_otvet = 0;
     int sum = 0;
     output << "Ways:" << endl;
     for (int i=0; i<zk; i++){
@@ -69,9 +73,9 @@ int main(){
 
             output <<mas_ways[i].first->name << "<->" <<mas_ways[i].second->name<<" W:" << mas_ways[i].weight << endl;
             sum = sum + mas_ways[i].weight;
+            kol_otvet++;
         }
     }
-    delete[] otvet;
     delete[] mas_cit;
     delete[] mas_ways;
     output << "Total sum:" << sum;
@@ -80,6 +84,14 @@ int main(){
     if (s != n){
         output.open("../output.txt");
         output << "Введено неверное количество городов";
+        output.close();
+        return 0;
+    }
+    if (kol_otvet != n-1){
+        output.open("../output.txt");
+        output << "Систему дорог, связывающую все города между, построить невозможно";
+        output.close();
+        return 0;
     }
     return 1;
 }
