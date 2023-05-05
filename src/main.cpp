@@ -8,47 +8,48 @@ int main(){
     setlocale(LC_ALL, "Russian");
     ifstream input;
     ofstream output;
-    output.open("../output.txt");
-    input.open("../input.txt");
-    char d;
-    input >> d;
-    int n = int(d-'0');
-    int n_d = n * (n-1)/2;
-    int number = 0;
-    city *mas_cit = new city[n];
-    way *mas_ways = new way[n_d];
-    bool z = true;
-    int zk = 0;
+    output.open("../output.txt");   //файл для записи
+    input.open("../input.txt");     //файл для чтения
+    char d;                         //количество городов и названия их
+    input >> d;             
+    int n = int(d-'0');             //количество городов
+    int n_d = n * (n-1)/2;          //количество ребер(дорог) для полного графа
+    int number = 0;                 //число в массиве городов
+    city *mas_cit = new city[n];    //массив городов
+    way *mas_ways = new way[n_d];   //массив дорог
+    bool z = true;                  //флаг полного ввода
+    int zk = 0;                     //настоящее количество дорог
     while (!input.eof()){
-        city *one = NULL;
-        city *two = NULL;
+        city *one = NULL;           //первый город
+        city *two = NULL;           //второй город
         char d[20];
-        int k;
+        int k;                      //стоимость дороши между ними
         input >> d;
-        if (*d == '.'){
+        if (*d == '.'){             //если введена точка остановить ввод
             z = false;
             break;
         };
         if (input.eof()) break;
-        one = insert_city(d, &mas_cit, n, &number);
+        one = insert_city(d, &mas_cit, n, &number); //добавление города в массив
         input >> d;
         two = insert_city(d, &mas_cit, n, &number);
         input >> k;
-        mas_ways[zk].first = one;
+        mas_ways[zk].first = one;   //добавление дороги в массив дорог
         mas_ways[zk].second = two;
         mas_ways[zk].weight = k;
         zk = zk + 1;
-        if (zk > n_d){
+        if (zk > n_d){              //если количество дорог больше максимального
             output << "Количество дорог больше";
             return 0;
         }
     }
-    if (zk != n_d && z){
+    
+    if (zk != n_d && z){            //если файл введен не полностью и нельзя построить граф
         output << "Введены не все дороги";
         return 0;
     }
-    heapSort(mas_ways, zk);
-    char **mas_c = new char*[n];
+    heapSort(mas_ways, zk);         //пирамидальная сортировка дорог
+    char **mas_c = new char*[n];    //массив для названий городов уже в системе
     for (int i=0; i<n; i++){
         mas_c[i] = new char[20];
     }
@@ -76,7 +77,6 @@ int main(){
             kol_otvet++;
         }
     }
-    delete[] mas_cit;
     delete[] mas_ways;
     output << "Total sum:" << sum;
     input.close();
