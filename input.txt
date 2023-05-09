@@ -1,12 +1,2 @@
-6
-A B 7
-A C 8
-B C 11
-B D 2
-C D 6
-D E 11
-C E 9
-D F 9
-E F 10
-D E 11
-.
+4
+Novosibirsk NY 28

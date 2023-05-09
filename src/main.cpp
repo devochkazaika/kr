@@ -53,43 +53,44 @@ int main(){
     for (int i=0; i<n; i++){
         mas_c[i] = new char[20];
     }
-    int s = 0;
-    int kol_otvet = 0;
-    int sum = 0;
+    int s = 0;          //количество городов в ответе
+    int kol_otvet = 0;  //количество дорог в ответе
+    int sum = 0;        //итоговая стоимость
     output << "Ways:" << endl;
     for (int i=0; i<zk; i++){
         bool t1 = true;
         bool t2 = true;
-        t1 = pr(mas_ways[i].first, mas_c, s);
+        t1 = pr(mas_ways[i].first, mas_c, s);   //проверка есть ли город в массиве
         t2 = pr(mas_ways[i].second, mas_c, s);
         if (t1 || t2){
             if (t1){
-                zap(mas_c[s], mas_ways[i].first->name);
-                s = s + 1;
+                zap(mas_c[s], mas_ways[i].first->name); //запись города
+                s = s + 1;          //количество городов +1 в массиве
             }
             if (t2){
                 zap(mas_c[s], mas_ways[i].second->name);
                 s = s + 1;
             }
 
-            output <<mas_ways[i].first->name << "<->" <<mas_ways[i].second->name<<" W:" << mas_ways[i].weight << endl;
+            output <<mas_ways[i].first->name << "<->" <<mas_ways[i].second->name<<" W:" << mas_ways[i].weight << endl; //запись дороги в файл
             sum = sum + mas_ways[i].weight;
             kol_otvet++;
         }
     }
-    delete[] mas_ways;
+    delete[] mas_ways;  //удаление массива дорог
+    delete[] mas_cit;   //удаление массива городов
     output << "Total sum:" << sum;
     input.close();
     output.close();
-    if (s != n){
+    if (s != n){    //если количество городов меньше минимального
         output.open("../output.txt");
         output << "Введено неверное количество городов";
         output.close();
         return 0;
     }
-    if (kol_otvet != n-1){
+    if (kol_otvet != n-1){  //количество дорог меньше минимального
         output.open("../output.txt");
-        output << "Систему дорог, связывающую все города между, построить невозможно";
+        output << "Систему дорог, связывающую все города между ними, построить невозможно";
         output.close();
         return 0;
     }
